@@ -1,0 +1,100 @@
+apply plugin: 'com.android.application'
+apply plugin: 'realm-android'
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+    defaultConfig {
+        applicationId "com.stockbolt.android"
+        minSdkVersion 23
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+
+        jackOptions {
+            enabled true
+        }
+    }
+
+    dexOptions {
+        javaMaxHeapSize "2g"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+        incremental true
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("/Users/Jenson/development/Stockbolt/stockbolt_android.jks")
+            storePassword "1234567"
+            keyAlias "stockbolt_android"
+            keyPassword "7654321"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            buildConfigField('String', 'API_SERVER_DOMAIN', '"http://dev.we.land:8088"')
+//            buildConfigField('String', 'API_SERVER_DOMAIN', '"http://dev.we.land:8088"')
+            buildConfigField('String', 'API_METHOD', '"/api/"')
+            buildConfigField('boolean', 'API_DEBUG', 'false')
+            buildConfigField('String', 'PUBNUM_PUBKEY', '"pub-c-ffc65985-a3b4-4e8e-b801-fd54b27c1113"');
+            buildConfigField('String', 'PUBNUM_SUBKEY', '"sub-c-f57a4eea-604f-11e6-83be-0619f8945a4f"');
+            manifestPlaceholders = [PACKAGE_NAME: "land.we.welandapp"]
+//            manifestPlaceholders = [UMENGKEY: "56ea6c6a67e58eecca0002af"]
+        }
+        // 调试
+        debug {
+            minifyEnabled false
+            debuggable true
+            applicationIdSuffix ".debug"
+//            buildConfigField('String', 'API_SERVER_DOMAIN', '"http://10.0.2.2:8080"')
+            buildConfigField('String', 'API_SERVER_DOMAIN', '"http://dev.we.land:8088"')
+//            buildConfigField('String', 'API_SERVER_DOMAIN', '"http://dev.we.land:8080"')
+            buildConfigField('String', 'API_METHOD', '"/api/"')
+            buildConfigField('boolean', 'API_DEBUG', 'true')
+            buildConfigField('String', 'PUBNUM_PUBKEY', '"pub-c-ffc65985-a3b4-4e8e-b801-fd54b27c1113"');
+            buildConfigField('String', 'PUBNUM_SUBKEY', '"sub-c-f57a4eea-604f-11e6-83be-0619f8945a4f"');
+            manifestPlaceholders = [PACKAGE_NAME: "land.we.welandapp.debug"]
+//            manifestPlaceholders = [UMENGKEY: "56ea6c6a67e58eecca0002af"]
+        }
+    }
+}
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
+    compile 'com.android.support:design:25.0.0'
+    compile "com.android.support:support-v4:$rootProject.supportLibraryVersion"
+    compile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
+    compile "com.android.support:cardview-v7:$rootProject.supportLibraryVersion"
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile "com.android.support:support-annotations:$rootProject.supportLibraryVersion"
+    compile 'com.google.guava:guava:18.0'
+    compile 'com.google.code.gson:gson:2.8.0'
+    compile 'com.squareup.retrofit2:retrofit:2.0.2'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'io.reactivex:rxjava:1.1.6'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+    compile 'com.android.support:multidex:1.0.1'
+
+    compile 'com.facebook.fresco:fresco:1.3.0'
+//    compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+    testCompile 'junit:junit:4.12'
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
