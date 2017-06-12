@@ -29,7 +29,7 @@ android {
 
     signingConfigs {
         release {
-            storeFile file("/Users/Jenson/development/Stockbolt/stockbolt_android.jks")
+            storeFile file("stockbolt_android.jks")
             storePassword "1234567"
             keyAlias "stockbolt_android"
             keyPassword "7654321"
